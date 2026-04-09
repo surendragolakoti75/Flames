@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>FLAMES 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+height:100vh;
+background:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1920&auto=format&fit=crop') no-repeat center/cover;
+display:flex;
+justify-content:center;
+align-items:center;
+overflow:hidden;
+}
+
+body::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.6);
+backdrop-filter:blur(6px);
+}
+
+.app{
+position:relative;
+z-index:2;
+width:90%;
+max-width:500px;
+text-align:center;
+color:white;
+padding:30px;
+border-radius:20px;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(15px);
+box-shadow:0 0 40px rgba(0,0,0,0.5);
+}
+
+/* TITLE */
+
+.title{
+font-family:'Cinzel',serif;
+font-size:55px;
+margin-bottom:30px;
+letter-spacing:8px;
+background:linear-gradient(45deg,#ff7a8a,#ff9aa5,#ffc77a,#b38cff,#7cead7);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+animation:flameGlow 2s infinite alternate;
+}
+
+@keyframes flameGlow{
+from{transform:translateY(0);text-shadow:0 0 5px rgba(255,120,140,0.4);}
+to{transform:translateY(-4px);text-shadow:0 0 10px rgba(255,180,120,0.5);}
+}
+
+/* INPUTS */
+
+.inputs{
+display:flex;
+gap:10px;
+}
+
+input{
+flex:1;
+padding:12px;
+border-radius:10px;
+border:none;
+background:rgba(255,255,255,0.15);
+color:white;
+outline:none;
+}
+
+input::placeholder{
+color:rgba(255,255,255,0.6);
+}
+
+/* BUTTON */
+
+.btn{
+margin-top:20px;
+padding:12px;
+width:100%;
+border:none;
+border-radius:10px;
+background:linear-gradient(135deg,#ff9a9e,#fbc2eb);
+cursor:pointer;
+font-size:16px;
+}
+
+/* RESULT */
+
+.result{
+margin-top:25px;
+font-size:32px;
+font-family:'Cinzel';
+min-height:40px;
+}
+
+/* TOAST ALERT */
+
+.toast{
+position:fixed;
+bottom:40px;
+left:50%;
+transform:translateX(-50%);
+background:rgba(0,0,0,0.85);
+color:white;
+padding:10px 18px;
+border-radius:25px;
+font-size:14px;
+animation:toastShow 0.3s ease;
+z-index:999;
+}
+
+@keyframes toastShow{
+from{opacity:0;transform:translate(-50%,20px);}
+to{opacity:1;transform:translate(-50%,0);}
+}
+
+/* RESULT COLORS */
+
+.love{color:#ff4d6d;text-shadow:0 0 12px #ff4d6d;}
+.enemy{color:#ff1e1e;}
+.friend{color:#00e6c3;}
+.marriage{color:#ffd166;}
+.affection{color:#c77dff;}
+.sibling{color:#2ecc71;}
+
+.share-btn{
+margin-top:15px;
+padding:10px;
+width:100%;
+border:none;
+border-radius:10px;
+background:linear-gradient(135deg,#25D366,#128C7E);
+color:white;
+cursor:pointer;
+}
+
+/* HEART PARTICLES */
+
+.heart{
+position:fixed;
+font-size:24px;
+pointer-events:none;
+animation:heartBlast 2s ease-out forwards;
+}
+
+@keyframes heartBlast{
+0%{transform:scale(0.5) translateY(0);opacity:1;}
+100%{transform:scale(1.8) translateY(-300px);opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<h1 class="title">FLAMES</h1>
+
+<div class="inputs">
+<input id="name1" placeholder="Enter your name">
+<input id="name2" placeholder="Enter partner name">
+</div>
+
+<button class="btn" onclick="calculateFlames()">Reveal Destiny ✨</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+/* TOAST ALERT */
+
+function showToast(msg){
+let t=document.createElement("div");
+t.className="toast";
+t.innerText=msg;
+document.body.appendChild(t);
+
+setTimeout(()=>{t.remove();},2000);
+}
+
+/* HEART EXPLOSION */
+
+function heartExplosion(){
+for(let i=0;i<30;i++){
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+
+h.style.left=Math.random()*100+"vw";
+h.style.top=Math.random()*70+20+"vh";
+
+document.body.appendChild(h);
+
+setTimeout(()=>{h.remove()},2000);
+}
+}
+
+/* TYPE EFFECT */
+
+function typeWriter(text,el,speed=70){
+el.innerHTML="";
+let i=0;
+function t(){
+if(i<text.length){
+el.innerHTML+=text[i];
+i++;
+setTimeout(t,speed);
+}
+}
+t();
+}
+
+/* FLAMES */
+
+function calculateFlames(){
+
+let n1=name1.value.trim();
+let n2=name2.value.trim();
+
+/* VALIDATION */
+
+if(!n1 && !n2){
+showToast("⚠️ Enter names");
+return;
+}
+
+if(n1 && !n2){
+showToast("⚠️ Enter partner name");
+return;
+}
+
+if(!n1 && n2){
+showToast("⚠️ Enter your name");
+return;
+}
+
+/* LOGIC */
+
+let a=n1.toLowerCase().replace(/\s/g,"").split("");
+let b=n2.toLowerCase().replace(/\s/g,"").split("");
+
+for(let i=0;i<a.length;i++){
+for(let j=0;j<b.length;j++){
+if(a[i]===b[j]){
+a[i]='';
+b[j]='';
+break;
+}
+}
+}
+
+let count=(a.join("")+b.join("")).length;
+
+let flames=["F","L","A","M","E","S"];
+let i=0;
+
+while(flames.length>1){
+i=(i+count-1)%flames.length;
+flames.splice(i,1);
+}
+
+let map={
+F:{text:"Friends 🤝",cls:"friend"},
+L:{text:"LOVE ❤️",cls:"love"},
+A:{text:"Affection 💕",cls:"affection"},
+M:{text:"Marriage 💍",cls:"marriage"},
+E:{text:"Enemies 😡",cls:"enemy"},
+S:{text:"Siblings 👨‍👩‍👧",cls:"sibling"}
+};
+
+let res=map[flames[0]];
+
+if(flames[0]=="L"){
+heartExplosion();
+}
+
+result.innerHTML=`
+<div id="capture">
+<div id="typed" class="result ${res.cls}"></div>
+</div>
+<button class="share-btn" onclick="shareResult()">📤 Share Result</button>
+`;
+
+typeWriter(res.text,document.getElementById("typed"));
+}
+
+/* SHARE */
+
+async function shareResult(){
+const c=document.getElementById("capture");
+
+html2canvas(c).then(async canvas=>{
+const blob=await new Promise(r=>canvas.toBlob(r));
+const file=new File([blob],"flames.png",{type:"image/png"});
+
+if(navigator.canShare && navigator.canShare({files:[file]})){
+navigator.share({files:[file]});
+}else{
+let link=document.createElement("a");
+link.href=canvas.toDataURL();
+link.download="flames.png";
+link.click();
+}
+});
+}
+
+</script>
+
+</body>
+</html>
